@@ -1,0 +1,25 @@
+gcloud auth login
+
+gcloud projects create parcs-python
+
+gcloud config set project parcs-python
+# enable billing and compute APIs for project
+
+gcloud config set compute/zone europe-north1-a
+
+gcloud config set compute/region europe-north1
+
+gcloud compute firewall-rules create allow-all --direction=INGRESS --priority=1000 --network=default --action=ALLOW --rules=all --source-ranges=0.0.0.0/0
+
+gcloud compute instances create-with-container master --container-image=registry.hub.docker.com/hummer12007/parcs-node --container-env PARCS_ARGS="master"
+
+gcloud compute instances create-with-container worker1 worker2 worker3 --container-image=registry.hub.docker.com/hummer12007/parcs-node --container-env PARCS_ARGS="worker 10.166.0.2"
+
+gcloud config set compute/zone asia-east1-a
+
+gcloud config set compute/region asia-east1-a
+
+gcloud compute instances create-with-container worker4 worker5 worker6 --container-image=registry.hub.docker.com/hummer12007/parcs-node --container-env PARCS_ARGS="worker 10.166.0.2"
+
+EXTERNAL_IP
+35.228.186.218:8080
